@@ -1,0 +1,5 @@
+module Camera
+typeinfo appCamera.qmltypes
+prefer :/Camera/
+Controller 1.0 Controller.qml
+
