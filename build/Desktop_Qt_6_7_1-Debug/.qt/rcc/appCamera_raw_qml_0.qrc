@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/Camera/">
+    <file alias="main.qml">/root/qt_final/Camera/main.qml</file>
+    <file alias="Controller.qml">/root/qt_final/Camera/Controller.qml</file>
+  </qresource>
+</RCC>
+
