@@ -16,7 +16,7 @@ ApplicationWindow {
     //color: palette.window
 
 
-
+    //窗口顶部包含了按钮
     Frame{
         id:controlsFrame
         anchors{
@@ -27,13 +27,67 @@ ApplicationWindow {
         height: 50
         Controller {
             id: controls
+            captureSession:captureSession
             height: parent.height
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-
-    /*VideoOutput {
+    //视频输出设备
+    VideoOutput {
         id: videoOutput
         anchors.fill: parent
-    }*/
+        visible:true
+        // anchors.bottom: root.bottom
+        // anchors.top: controlsFrame.bottom
+        // anchors.horizontalCenter: root.horizontalCenter
+    }
+
+    //用户录制或捕获音频和视频的设备
+    CaptureSession{
+        id:captureSession
+        recorder: recorder
+        camera: Camera{
+            id:camera
+            Component.onCompleted: {
+                start();
+            }
+        }
+        videoOutput: videoOutput
+
+        //相机捕获一帧图片
+        imageCapture: ImageCapture {
+            id: imageCapture
+        }
+         audioInput: AudioInput{}
+    }
+    //录像机
+    MediaRecorder {
+        id: recorder
+        //录像机状态改变时处理
+        //1.录像开始时拍照和查看按钮不可用
+        //2.录像结束后拍照和查看按钮可用
+        onRecorderStateChanged:
+            (state) => {
+                if (state === MediaRecorder.StoppedState) {
+                    root.contentOrientation = Qt.PrimaryOrientation
+                    controlsFrame.controls.pictrue.enabel = !controlsFrame.controls.pictrue.enabel
+                    controlsFrame.controls.pictrue.view   = !controlsFrame.controls.view.enabel
+                    //mediaList.append()
+                } else if (state === MediaRecorder.RecordingState && captureSession.camera) {
+                    // lock orientation while recording and create a preview image
+                    root.contentOrientation = root.screen.orientation;
+                    controlsFrame.controls.pictrue.enabel = !controlsFrame.controls.pictrue.enabel
+                    controlsFrame.controls.pictrue.view   = !controlsFrame.controls.view.enabel
+
+                    //videoOutput.grabToImage(function(res) { mediaList.mediaThumbnail = res.url })
+                }
+            }
+        // onActualLocationChanged: (url) => { mediaList.mediaUrl = url }
+        // onErrorOccurred: { recorderErrorText.text = recorder.errorString; recorderError.open(); }
+    }
+
+
+
+
+
 }
