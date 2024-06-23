@@ -16,7 +16,7 @@ ApplicationWindow {
     //color: palette.window
 
 
-    //窗口顶部包含了按钮
+    // 窗口顶部包含了按钮
     Frame{
         id:controlsFrame
         anchors{
@@ -25,18 +25,23 @@ ApplicationWindow {
             top: parent.top
         }
         height: 50
-        Controller {
-            id: controls
-            captureSession:captureSession
-            height: parent.height
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+    }
+
+    Controller {
+        id: controls
+        captureSession:captureSession
+        height: controlsFrame.height
+        anchors.horizontalCenter: controlsFrame.horizontalCenter
     }
     //视频输出设备
     VideoOutput {
         id: videoOutput
         anchors.fill: parent
         visible:true
+        Text {
+            id: name
+            text: qsTr("text")
+        }
         // anchors.bottom: root.bottom
         // anchors.top: controlsFrame.bottom
         // anchors.horizontalCenter: root.horizontalCenter
@@ -58,7 +63,7 @@ ApplicationWindow {
         imageCapture: ImageCapture {
             id: imageCapture
         }
-         audioInput: AudioInput{}
+        audioInput: AudioInput{}
     }
     //录像机
     MediaRecorder {
@@ -70,24 +75,26 @@ ApplicationWindow {
             (state) => {
                 if (state === MediaRecorder.StoppedState) {
                     root.contentOrientation = Qt.PrimaryOrientation
-                    controlsFrame.controls.pictrue.enabel = !controlsFrame.controls.pictrue.enabel
-                    controlsFrame.controls.pictrue.view   = !controlsFrame.controls.view.enabel
+                    controls.pictrue.enabled = !controls.pictrue.enabled
+                    controls.view.enabled   = !controls.view.enabled
+
+                    //将资源添加到mediaList中
                     //mediaList.append()
                 } else if (state === MediaRecorder.RecordingState && captureSession.camera) {
-                    // lock orientation while recording and create a preview image
-                    root.contentOrientation = root.screen.orientation;
-                    controlsFrame.controls.pictrue.enabel = !controlsFrame.controls.pictrue.enabel
-                    controlsFrame.controls.pictrue.view   = !controlsFrame.controls.view.enabel
 
-                    //videoOutput.grabToImage(function(res) { mediaList.mediaThumbnail = res.url })
+                    root.contentOrientation = root.screen.orientation;
+                    controls.pictrue.enabled = !controls.pictrue.enabled
+                    controls.view.enabled   = !controls.view.enabled
+
+                    //录像开始时，异步调用grabToImage（），捕捉开始那一帧图像作为缩略图
+                    videoOutput.grabToImage(/*function(res) { mediaList.mediaThumbnail = res.url }*/
+                                            function(res){ console.log(res)}
+                                            )
+
                 }
             }
-        // onActualLocationChanged: (url) => { mediaList.mediaUrl = url }
-        // onErrorOccurred: { recorderErrorText.text = recorder.errorString; recorderError.open(); }
+        onActualLocationChanged: (url) => { mediaList.mediaUrl = url }
+        onErrorOccurred: { recorderErrorText.text = recorder.errorString; recorderError.open(); }
     }
-
-
-
-
 
 }
