@@ -37,8 +37,6 @@ Thumbs.db
 
 # qtcreator generated files
 *.pro.user*
-CMakeLists.txt.user*
-*.qmlproject.user*
 
 # xemacs temporary files
 *.flc
@@ -73,9 +71,3 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
-#vpp
-*vpp.bak_*
-*vpp.vbak
-*vpp.lck
-
-build/

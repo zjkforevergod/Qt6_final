@@ -4,10 +4,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtMultimedia
 
-
-
 ApplicationWindow {
-    id:root
+    id: root
     width: 800
     height: 600
     visible: true
@@ -15,11 +13,10 @@ ApplicationWindow {
 
     //color: palette.window
 
-
     // 窗口顶部包含了按钮
-    Frame{
-        id:controlsFrame
-        anchors{
+    Frame {
+        id: controlsFrame
+        anchors {
             left: parent.left
             right: parent.right
             top: parent.top
@@ -29,7 +26,7 @@ ApplicationWindow {
 
     Controller {
         id: controls
-        captureSession:captureSession
+        captureSession: captureSession
         height: controlsFrame.height
         anchors.horizontalCenter: controlsFrame.horizontalCenter
     }
@@ -37,7 +34,7 @@ ApplicationWindow {
     VideoOutput {
         id: videoOutput
         anchors.fill: parent
-        visible:true
+        visible: true
         Text {
             id: name
             text: qsTr("text")
@@ -48,13 +45,13 @@ ApplicationWindow {
     }
 
     //用户录制或捕获音频和视频的设备
-    CaptureSession{
-        id:captureSession
+    CaptureSession {
+        id: captureSession
         recorder: recorder
-        camera: Camera{
-            id:camera
+        camera: Camera {
+            id: camera
             Component.onCompleted: {
-                start();
+                start()
             }
         }
         videoOutput: videoOutput
@@ -63,7 +60,7 @@ ApplicationWindow {
         imageCapture: ImageCapture {
             id: imageCapture
         }
-        audioInput: AudioInput{}
+        audioInput: AudioInput {}
     }
     //录像机
     MediaRecorder {
@@ -71,30 +68,39 @@ ApplicationWindow {
         //录像机状态改变时处理
         //1.录像开始时拍照和查看按钮不可用
         //2.录像结束后拍照和查看按钮可用
-        onRecorderStateChanged:
-            (state) => {
-                if (state === MediaRecorder.StoppedState) {
-                    root.contentOrientation = Qt.PrimaryOrientation
-                    controls.pictrue.enabled = !controls.pictrue.enabled
-                    controls.view.enabled   = !controls.view.enabled
+        onRecorderStateChanged: state => {
+                                    if (state === MediaRecorder.StoppedState) {
+                                        root.contentOrientation = Qt.PrimaryOrientation
+                                        controls.pictrue.enabled = !controls.pictrue.enabled
+                                        controls.view.enabled = !controls.view.enabled
 
-                    //将资源添加到mediaList中
-                    //mediaList.append()
-                } else if (state === MediaRecorder.RecordingState && captureSession.camera) {
+                                        //将资源添加到mediaList中
+                                        //mediaList.append()
+                                    } else if (state === MediaRecorder.RecordingState
+                                               && captureSession.camera) {
 
-                    root.contentOrientation = root.screen.orientation;
-                    controls.pictrue.enabled = !controls.pictrue.enabled
-                    controls.view.enabled   = !controls.view.enabled
+                                        root.contentOrientation = root.screen.orientation
+                                        controls.pictrue.enabled = !controls.pictrue.enabled
+                                        controls.view.enabled = !controls.view.enabled
 
-                    //录像开始时，异步调用grabToImage（），捕捉开始那一帧图像作为缩略图
-                    videoOutput.grabToImage(/*function(res) { mediaList.mediaThumbnail = res.url }*/
-                                            function(res){ console.log(res)}
-                                            )
-
-                }
-            }
-        onActualLocationChanged: (url) => { mediaList.mediaUrl = url }
-        onErrorOccurred: { recorderErrorText.text = recorder.errorString; recorderError.open(); }
+                                        //录像开始时，异步调用grabToImage（），捕捉开始那一帧图像作为缩略图
+                                        videoOutput.grabToImage(
+                                            /*function(res) { mediaList.mediaThumbnail = res.url }*/
+                                            function (res) {
+                                                console.log(res)
+                                            })
+                                    }
+                                }
+        onActualLocationChanged: url => {
+                                     mediaList.mediaUrl = url
+                                 }
+        onErrorOccurred: {
+            recorderErrorText.text = recorder.errorString
+            recorderError.open()
+        }
     }
+    PictureView {
 
+        id: containsImage
+    }
 }

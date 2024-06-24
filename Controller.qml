@@ -23,7 +23,10 @@ RowLayout{
         id:_view
         Layout.minimumHeight: 50
         text: "View"
-
+        onClicked: {
+            containsImage.visible=true;
+            camera.stop()
+        }
     }
 
     Button{
