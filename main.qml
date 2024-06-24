@@ -103,4 +103,43 @@ ApplicationWindow {
 
         id: containsImage
     }
+
+    Playback {
+        id: playback
+        anchors {
+            fill: parent
+            margins: 50
+        }
+        active: controls.capturesVisible
+
+    }
+
+
+
+    //点击capture动画显示mediaListFrame
+    Frame {
+        id: mediaListFrame
+        height: 150
+        width: parent.width
+        anchors.bottom: parent.bottom
+        x: controls.capturesVisible ? 0 : parent.width
+
+        background: Rectangle {
+            anchors.fill: parent
+            color: palette.base
+            opacity: 0.5
+        }
+
+        Behavior on x { NumberAnimation { duration: 200 } }
+
+        MediaList {
+            id: mediaList
+            anchors.fill: parent
+            playback: playback
+        }
+
+
+    // 媒体列表
 }
+}
+

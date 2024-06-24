@@ -20,6 +20,8 @@ qt_add_qml_module(appCamera
     QML_FILES
     QML_FILES
     QML_FILES PictureView.qml
+    QML_FILES MediaList.qml
+    QML_FILES Playback.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

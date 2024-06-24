@@ -12,6 +12,7 @@ RowLayout{
     property alias pictrue: _pictrue
     property alias record: _record
     property alias capture: _capture
+    property bool capturesVisible: false
 
     //需要recording控制录制状态pictrue
     // required property bool rocording
@@ -62,6 +63,8 @@ RowLayout{
         Layout.minimumHeight: 50
         text : "Capture"
         onClicked: {
+            root.capturesVisible=!root.capturesVisible
+                        console.log(playback)
 
         }
     }
