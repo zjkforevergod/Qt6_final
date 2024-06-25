@@ -74,10 +74,16 @@ ApplicationWindow {
         recorder: recorder
         camera: Camera {
             id: camera
+
             Component.onCompleted: {
                 start()
             }
         }
+        screenCapture: ScreenCapture {
+            id: screenCapture
+            active: false
+        }
+
         videoOutput: videoOutput
         //用于相机捕获一帧图片
         imageCapture: ImageCapture {
@@ -134,7 +140,6 @@ ApplicationWindow {
         id: playback
         anchors.fill: parent
         active: controls.capturesVisible
-
     }
 
     //点击capture动画显示mediaListFrame
@@ -162,6 +167,7 @@ ApplicationWindow {
             anchors.fill: parent
             playback: playback
         }
+
 
     }
 }
