@@ -45,7 +45,7 @@ RowLayout{
         id: _record
         Layout.minimumHeight: 50
         Layout.minimumWidth: 160
-        text :"录制视频"
+        text : recording ? "停止录制" : "录制视频"
          //点击录制或者停止录制视频
 
         onClicked: {
@@ -64,8 +64,7 @@ RowLayout{
         text : "Capture"
         onClicked: {
             root.capturesVisible=!root.capturesVisible
-                        console.log(playback)
-
+                        // console.log(playback)
         }
     }
 

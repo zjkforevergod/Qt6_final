@@ -1,0 +1,14 @@
+-rootPath
+/root/qt_final/Qt6_final
+-cmake-output
+-output-file
+/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug/.qt/qml_imports/appCamera_build.cmake
+-importPath
+/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug/Camera
+-importPath
+/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug
+-importPath
+/opt/Qt/6.7.1/gcc_64/./qml
+-qrcFiles
+/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug/.qt/rcc/qmake_Camera.qrc
+/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug/.qt/rcc/appCamera_raw_qml_0.qrc

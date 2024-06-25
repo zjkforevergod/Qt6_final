@@ -27,13 +27,20 @@ Item {
         anchors.fill: parent
         model:  mediaList
         orientation: ListView.Horizontal
-        spacing: 4
+        spacing: 5
 
         delegate: Frame {//每个媒体项都是一个Frame
             padding: 5
             width: root.height
             height: root.height
-            anchors.fill: parent
+            // anchors.fill: parent
+            background: Rectangle {
+                anchors.fill: parent;
+                opacity: 0.5
+                border.color: "black"
+                border.width: 1
+                radius: 3
+            }
 
             required property string url
             required property string thumbnail
@@ -57,13 +64,15 @@ Item {
                 }
             }
             RoundButton {
-                //播放
+                //播放按钮
                 anchors.centerIn: parent
                 width: 30
                 height: 30
                 text: "\u25B6";
                 onClicked: { playback.playUrl(url) }//点击时调用
             }
+
+
         }
     }
 }

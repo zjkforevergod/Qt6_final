@@ -7,6 +7,7 @@ Item {
 
     property bool active: false//是否激活视频播放界面
     property bool playing: false//是否正在播放视频
+    property alias player: mediaPlayer
     visible: active && playing//两者皆为真时播放界面才可见
 
     function playUrl(url) {
@@ -30,25 +31,39 @@ Item {
         id: videoOutput
     }
 
-    //播放视频
+    //视频播放器
     MediaPlayer {
         id: mediaPlayer
         videoOutput: videoOutput
         audioOutput: AudioOutput {}
+
     }
 
+    //进度条
+    Slider {
+               id: mediaSlider
+               width: parent.width
+               y: controlsFrame.height+5
+               enabled: mediaPlayer.seekable
+               to: 1.0
+               value: mediaPlayer.position / mediaPlayer.duration
+
+               onMoved: mediaPlayer.setPosition(value * mediaPlayer.duration)
+           }
+
+    //当播放视频鼠标进入时显示roundButton
     HoverHandler { id: hover }
 
-    RoundButton {//圆形按钮
+    RoundButton {
         width: 50
         height: 50
         opacity: hover.hovered && active ? 1.0 : 0.0
         anchors.centerIn: root
         radius: 25
         text: "\u25A0";
-        onClicked: root.stop() //点击停止播放
+        onClicked: root.stop() //点击直接退出capture状态
 
-        Behavior on opacity { NumberAnimation { duration: 200 } }//按钮不透明度变化与一个动画效果，持续时间为200毫秒
+        Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 }
 

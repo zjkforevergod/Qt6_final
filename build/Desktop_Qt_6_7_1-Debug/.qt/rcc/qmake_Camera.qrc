@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/Camera">
+    <file alias="qmldir">/root/qt_final/Qt6_final/build/Desktop_Qt_6_7_1-Debug/Camera/qmldir</file>
+  </qresource>
+</RCC>
+

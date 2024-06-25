@@ -11,6 +11,11 @@ ApplicationWindow {
     visible: true
     title: qsTr("Camera")
 
+    minimumHeight: 600
+    minimumWidth: 800
+    maximumHeight: 600
+    maximumWidth: 800
+
     //color: palette.window
 
     // 窗口顶部包含了按钮
@@ -35,10 +40,6 @@ ApplicationWindow {
         id: videoOutput
         anchors.fill: parent
         visible: true
-        Text {
-            id: name
-            text: qsTr("text")
-        }
         // anchors.bottom: root.bottom
         // anchors.top: controlsFrame.bottom
         // anchors.horizontalCenter: root.horizontalCenter
@@ -55,8 +56,7 @@ ApplicationWindow {
             }
         }
         videoOutput: videoOutput
-
-        //相机捕获一帧图片
+        //用于相机捕获一帧图片
         imageCapture: ImageCapture {
             id: imageCapture
         }
@@ -73,9 +73,8 @@ ApplicationWindow {
                                         root.contentOrientation = Qt.PrimaryOrientation
                                         controls.pictrue.enabled = !controls.pictrue.enabled
                                         controls.view.enabled = !controls.view.enabled
-
                                         //将资源添加到mediaList中
-                                        //mediaList.append()
+                                        mediaList.append()
                                     } else if (state === MediaRecorder.RecordingState
                                                && captureSession.camera) {
 
@@ -84,11 +83,7 @@ ApplicationWindow {
                                         controls.view.enabled = !controls.view.enabled
 
                                         //录像开始时，异步调用grabToImage（），捕捉开始那一帧图像作为缩略图
-                                        videoOutput.grabToImage(
-                                            /*function(res) { mediaList.mediaThumbnail = res.url }*/
-                                            function (res) {
-                                                console.log(res)
-                                            })
+                                        videoOutput.grabToImage(function(res) { mediaList.mediaThumbnail = res.url })
                                     }
                                 }
         onActualLocationChanged: url => {
@@ -99,22 +94,19 @@ ApplicationWindow {
             recorderError.open()
         }
     }
+    //预览图片显示
     PictureView {
 
         id: containsImage
     }
 
+    //视频播放
     Playback {
         id: playback
-        anchors {
-            fill: parent
-            margins: 50
-        }
+        anchors.fill: parent
         active: controls.capturesVisible
 
     }
-
-
 
     //点击capture动画显示mediaListFrame
     Frame {
@@ -130,7 +122,11 @@ ApplicationWindow {
             opacity: 0.5
         }
 
-        Behavior on x { NumberAnimation { duration: 200 } }
+        Behavior on x {
+            NumberAnimation {
+                duration: 200
+            }
+        }
 
         MediaList {
             id: mediaList
@@ -138,8 +134,5 @@ ApplicationWindow {
             playback: playback
         }
 
-
-    // 媒体列表
+    }
 }
-}
-
