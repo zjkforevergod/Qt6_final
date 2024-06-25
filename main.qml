@@ -50,10 +50,16 @@ ApplicationWindow {
         recorder: recorder
         camera: Camera {
             id: camera
+
             Component.onCompleted: {
                 start()
             }
         }
+        screenCapture: ScreenCapture {
+            id: screenCapture
+            active: false
+        }
+
         videoOutput: videoOutput
 
         //相机捕获一帧图片
@@ -111,10 +117,7 @@ ApplicationWindow {
             margins: 50
         }
         active: controls.capturesVisible
-
     }
-
-
 
     //点击capture动画显示mediaListFrame
     Frame {
@@ -130,7 +133,11 @@ ApplicationWindow {
             opacity: 0.5
         }
 
-        Behavior on x { NumberAnimation { duration: 200 } }
+        Behavior on x {
+            NumberAnimation {
+                duration: 200
+            }
+        }
 
         MediaList {
             id: mediaList
@@ -138,8 +145,6 @@ ApplicationWindow {
             playback: playback
         }
 
-
-    // 媒体列表
+        // 媒体列表
+    }
 }
-}
-
