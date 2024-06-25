@@ -35,6 +35,28 @@ ApplicationWindow {
         height: controlsFrame.height
         anchors.horizontalCenter: controlsFrame.horizontalCenter
     }
+
+
+    Text {
+        id: recordTime//显示录制时间
+        y: controlsFrame.height
+        anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.bottom: root.bottom
+        font.pointSize: 11
+        color: "red"
+    }
+
+    Timer {//应用程序的定时器，用于更新录制时间的显示
+        running: true
+        interval: 100
+        repeat: true
+        onTriggered: {
+            var m = Math.floor(recorder.duration / 60000)//计算录制时间的分钟数，使用Math.floor向下取整。
+            var ms = (recorder.duration / 1000 - m * 60).toFixed(1)//计算录制时间的秒数，保留一位小数。
+            recordTime.text = `${m}:${ms.padStart(4, 0)}`//更新录制时间的显示，分钟和秒之间用冒号分隔，秒数不足两位时前面补零。
+        }
+    }
+
     //视频输出设备
     VideoOutput {
         id: videoOutput

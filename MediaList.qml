@@ -33,6 +33,7 @@ Item {
             padding: 5
             width: root.height
             height: root.height
+
             // anchors.fill: parent
             background: Rectangle {
                 anchors.fill: parent;
@@ -40,6 +41,7 @@ Item {
                 border.color: "black"
                 border.width: 1
                 radius: 3
+
             }
 
             required property string url
