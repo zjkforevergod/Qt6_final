@@ -33,7 +33,12 @@ Item {
             padding: 5
             width: root.height
             height: root.height
-            anchors.fill: parent
+            background {
+                opacity: 0.5
+                //border.color:"black"
+                //border.width:1
+                anchors.fill: parent
+            }
 
             required property string url
             required property string thumbnail

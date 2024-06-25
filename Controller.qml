@@ -13,7 +13,7 @@ RowLayout{
     property alias record: _record
     property alias capture: _capture
     property bool capturesVisible: false
-
+    // required property MediaRecorder recorder
     //需要recording控制录制状态pictrue
     // required property bool rocording
     property bool recording : false
@@ -58,16 +58,20 @@ RowLayout{
         }
 
     }
+
     Button{
         id:_capture
         Layout.minimumHeight: 50
         text : "Capture"
         onClicked: {
             root.capturesVisible=!root.capturesVisible
-                        console.log(playback)
+                        // console.log(playback)
 
         }
     }
+
+
+
 
 }
 
