@@ -42,8 +42,9 @@ ApplicationWindow {
         y: controlsFrame.height
         anchors.horizontalCenter: parent.horizontalCenter
         //anchors.bottom: root.bottom
-        font.pointSize: 11
+        font.pointSize: 20
         color: "red"
+        visible: false
     }
 
     Timer {//应用程序的定时器，用于更新录制时间的显示
@@ -95,6 +96,9 @@ ApplicationWindow {
                                         root.contentOrientation = Qt.PrimaryOrientation
                                         controls.pictrue.enabled = !controls.pictrue.enabled
                                         controls.view.enabled = !controls.view.enabled
+
+                                        //结束后时间消失
+                                        recordTime.visible = false
                                         //将资源添加到mediaList中
                                         mediaList.append()
                                     } else if (state === MediaRecorder.RecordingState
@@ -103,6 +107,9 @@ ApplicationWindow {
                                         root.contentOrientation = root.screen.orientation
                                         controls.pictrue.enabled = !controls.pictrue.enabled
                                         controls.view.enabled = !controls.view.enabled
+
+                                        //录制开始时记录录屏时间出现
+                                        recordTime.visible = true
 
                                         //录像开始时，异步调用grabToImage（），捕捉开始那一帧图像作为缩略图
                                         videoOutput.grabToImage(function(res) { mediaList.mediaThumbnail = res.url })

@@ -14,6 +14,9 @@ Item {
         playing = true
         mediaPlayer.source = url
         mediaPlayer.play()
+
+        //当开始播放视频时，记录视频时间消失
+        recordTime.visible = false
     }
 
     function stop() {
