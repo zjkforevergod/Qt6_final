@@ -1,9 +1,19 @@
 import QtQuick
 import QtMultimedia
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: root//根对象
+
+
+    //计算视频播放时间
+    function getTime(time : int) : string {
+        const h = Math.floor(time / 3600000).toString()
+        const m = Math.floor(time / 60000).toString()
+        const s = Math.floor(time / 1000 - m * 60).toString()
+        return `${h.padStart(2,'0')}:${m.padStart(2,'0')}:${s.padStart(2, '0')}`
+    }
 
     property bool active: false//是否激活视频播放界面
     property bool playing: false//是否正在播放视频
@@ -42,17 +52,30 @@ Item {
 
     }
 
-    //进度条
-    Slider {
-               id: mediaSlider
-               width: parent.width
-               y: controlsFrame.height+5
-               enabled: mediaPlayer.seekable
-               to: 1.0
-               value: mediaPlayer.position / mediaPlayer.duration
+    //播放进度条
+    RowLayout{
+        width: parent.width
+        y: controlsFrame.height+5
+        //播放时间
+        Label {
+            id: mediaTime
+            Layout.minimumWidth: 30
+            font.bold: true
+            text: root.getTime(mediaPlayer.position)
+        }
+        //进度条
+        Slider {
+                   id: mediaSlider
+                   Layout.fillWidth: true
+                   enabled: mediaPlayer.seekable
+                   to: 1.0
+                   value: mediaPlayer.position / mediaPlayer.duration
 
-               onMoved: mediaPlayer.setPosition(value * mediaPlayer.duration)
-           }
+                   onMoved: mediaPlayer.setPosition(value * mediaPlayer.duration)
+               }
+    }
+
+
 
     //当播放视频鼠标进入时显示roundButton
     HoverHandler { id: hover }

@@ -63,9 +63,6 @@ ApplicationWindow {
         id: videoOutput
         anchors.fill: parent
         visible: true
-        // anchors.bottom: root.bottom
-        // anchors.top: controlsFrame.bottom
-        // anchors.horizontalCenter: root.horizontalCenter
     }
 
     //用户录制或捕获音频和视频的设备
@@ -100,8 +97,8 @@ ApplicationWindow {
         onRecorderStateChanged: state => {
                                     if (state === MediaRecorder.StoppedState) {
                                         root.contentOrientation = Qt.PrimaryOrientation
-                                        controls.pictrue.enabled = !controls.pictrue.enabled
-                                        controls.view.enabled = !controls.view.enabled
+                                        controls.pictrue.enabled = true
+                                        controls.view.enabled = true
 
                                         //结束后时间消失
                                         recordTime.visible = false
@@ -111,8 +108,8 @@ ApplicationWindow {
                                                && captureSession.camera) {
 
                                         root.contentOrientation = root.screen.orientation
-                                        controls.pictrue.enabled = !controls.pictrue.enabled
-                                        controls.view.enabled = !controls.view.enabled
+                                        controls.pictrue.enabled = false
+                                        controls.view.enabled = false
 
                                         //录制开始时记录录屏时间出现
                                         recordTime.visible = true
@@ -121,9 +118,11 @@ ApplicationWindow {
                                         videoOutput.grabToImage(function(res) { mediaList.mediaThumbnail = res.url })
                                     }
                                 }
+        //处理路径改变
         onActualLocationChanged: url => {
                                      mediaList.mediaUrl = url
                                  }
+        //错误处理
         onErrorOccurred: {
             recorderErrorText.text = recorder.errorString
             recorderError.open()

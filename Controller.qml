@@ -13,16 +13,17 @@ RowLayout {
     property alias capture: _capture
     property bool capturesVisible: false
     // required property MediaRecorder recorder
-    //需要recording控制录制状态pictrue
-    // required property bool rocording
+    //recording控制录制状态
     property bool recording: false
-
-    //implicitHeight: 50
+    //screen_recording控制录制屏幕状态
+    property bool screen_recording: false
     spacing: 10
     Button {
         id: _view
         Layout.minimumHeight: 50
         text: "View"
+        //当一张照片都没有拍之前，禁用view按钮
+        enabled: captureSession.imageCapture.preview.length !== 0
         onClicked: {
             containsImage.visible = true
             camera.stop()
@@ -32,32 +33,64 @@ RowLayout {
     Button {
         id: _pictrue
         Layout.minimumHeight: 50
-        Layout.minimumWidth: 120
+        // Layout.minimumWidth: 120
         text: "拍照"
         onClicked: {
             captureSession.imageCapture.captureToFile("")
 
-            console.log(captureSession.imageCapture.preview)
         }
     }
     Button {
         id: _record
         Layout.minimumHeight: 50
-        Layout.minimumWidth: 160
+        Layout.minimumWidth: 140
 
-        text : recording ? "停止录制" : "录制视频"
+        text : recording ? "结束录制" : "录制视频"
 
 
         //点击录制或者停止录制视频
         onClicked: {
             if (recording) {
                 captureSession.recorder.stop()
+                //录屏按钮可用
+                _Scapture.enabled = true
             } else {
                 captureSession.recorder.record()
+                //录屏按钮不可用
+                _Scapture.enabled = false
+
             }
             recording = !recording // 更新录制状态
         }
     }
+
+
+    Button {
+        id: _Scapture
+        Layout.minimumHeight: 50
+        Layout.minimumWidth: 140
+        text: screen_recording ? "结束录制" : "录制屏幕"
+        //点击录屏或者停止录制屏幕
+        onClicked: {
+            if (screen_recording) {
+                recorder.stop()
+                screenCapture.active = false
+                camera.start()
+                //录制视频按钮可用
+                _record.enabled = true
+            } else {
+
+
+                screenCapture.active = true
+                camera.stop()
+                recorder.record()
+                //录制视频按钮不可用
+                _record.enabled = false
+            }
+            screen_recording = !screen_recording
+        }
+    }
+
 
     Button {
         id: _capture
@@ -70,22 +103,11 @@ RowLayout {
         }
     }
     Button {
-        id: _Scapture
+        id: _quit
         Layout.minimumHeight: 50
-        text: recording ? "结束录制" : "录制屏幕"
+        text: "Quit"
         onClicked: {
-            if (recording) {
-                recorder.stop()
-                screenCapture.active = false
-                camera.start()
-            } else {
-
-
-                screenCapture.active = true
-                camera.stop()
-                recorder.record()
-            }
-            recording = !recording
+            Qt.quit()
         }
     }
 }
