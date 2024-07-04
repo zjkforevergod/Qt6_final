@@ -36,7 +36,8 @@ qt_add_qml_module(
   Playback.qml
   QML_FILES
   QML_FILES
-  QML_FILES)
+  QML_FILES
+  QML_FILES main_NoPermissions.qml)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1. If
 # you are developing for iOS or macOS you should consider setting an explicit,
